@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="pt-BR"> 
+ <head> 
+  <meta charset="UTF-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <title>Roleta com Fotos</title> 
+  <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: lavender;
+            font-family: Arial, sans-serif;
+        }
+
+        .roleta {
+            position: relative;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 5px solid #000;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .opcoes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform: rotate(0deg);
+            transition: transform 5s ease-out;
+        }
+
+        .opcao {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: var(--cor);
+            transform-origin: flex-end;
+            clip-path: polygon(50% 50%, 100% 0, 100% 100%);
+            display: flex;
+            justify-content: end;
+            align-items: center; /* Alinha as imagens na borda */
+        }
+
+        .opcao img {
+            width: 50px;
+            height: 50px;
+            transform: rotate(-90deg);
+            margin-bottom: 20px; /* Ajusta a distância da borda */
+        }
+
+        /* Geração dinâmica dos ângulos para 20 segmentos */
+        .opcao:nth-child(1) { transform: rotate(0deg); }
+        .opcao:nth-child(2) { transform: rotate(18deg); }
+        .opcao:nth-child(3) { transform: rotate(36deg); }
+        .opcao:nth-child(4) { transform: rotate(54deg); }
+        .opcao:nth-child(5) { transform: rotate(72deg); }
+        .opcao:nth-child(6) { transform: rotate(90deg); }
+        .opcao:nth-child(7) { transform: rotate(108deg); }
+        .opcao:nth-child(8) { transform: rotate(126deg); }
+        .opcao:nth-child(9) { transform: rotate(144deg); }
+        .opcao:nth-child(10) { transform: rotate(162deg); }
+        .opcao:nth-child(11) { transform: rotate(180deg); }
+        .opcao:nth-child(12) { transform: rotate(198deg); }
+        .opcao:nth-child(13) { transform: rotate(216deg); }
+        .opcao:nth-child(14) { transform: rotate(234deg); }
+        .opcao:nth-child(15) { transform: rotate(252deg); }
+        .opcao:nth-child(16) { transform: rotate(270deg); }
+        .opcao:nth-child(17) { transform: rotate(288deg); }
+        .opcao:nth-child(18) { transform: rotate(306deg); }
+        .opcao:nth-child(19) { transform: rotate(324deg); }
+        .opcao:nth-child(20) { transform: rotate(342deg); }
+
+        .seta {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 30px solid #000;
+            z-index: 1;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .overlay img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+        }
+
+        .overlay button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #ff0000;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .overlay button:hover {
+            background-color: #cc0000;
+        }
+    </style> 
+ </head> 
+ <body> 
+  <div class="roleta"> 
+   <div class="seta"></div> 
+   <div class="opcoes"> <!-- Substitua pelos seus links --> 
+    <div class="opcao" style="--cor: #ff0000;"> 
+     <img src="https://i.imgur.com/lack.jpeg" alt="Imagem 1" onerror="this.style.display='none'"> 
+    </div> 
+    <div class="opcao" style="--cor: #00ff00;"> 
+     <img src="https://i.imgur.com/leck.png" alt="Imagem 2" onerror="this.style.display='none'"> 
+    </div> 
+    <div class="opcao" style="--cor: #0000ff;"> 
+     <img src="https://i.imgur.com/lick.png" alt="Imagem 3" onerror="this.style.display='none'"> 
+    </div> 
+    <div class="opcao" style="--cor: #ffff00;"> 
+     <img src="https://i.imgur.com/lock.png" alt="Imagem 4" onerror="this.style.display='none'"> 
+    </div> 
+    <div class="opcao" style="--cor: #ff00ff;"> 
+     <img src="https://i.imgur.com/luck.png" alt="Imagem 5" onerror="this.style.display='none'"> 
+    </div> 
+    <div class="opcao" style="--cor: #00ffff;"> 
+     <img src="https://i.imgur.com/dack.jpeg" alt="Imagem 6" onerror="this.style.display='none'"> 
+    </div> 
+    <div class="opcao" style="--cor: #ffcc00;"> 
+     <img src="https://i.imgur.com/deck.jpeg" alt="Imagem 7" onerror="this.style.display='none'"> 
+    </div> 
+    <div class="opcao" style="--cor: #cc00ff;"> 
+     <img src="https://i.imgur.com/dick.jpeg" alt="Imagem 8" onerror="this.style.display='none'"> 
+    </div> 
+    <div class="opcao" style="--cor: #ff0000;"> 
+     <img src="https://i.imgur.com/dock.jpeg" alt="Imagem 9" onerror="this.style.display='none'"> 
+    </div> 
+    <div class="opcao" style="--cor: #00ff00;"> 
+     <img src="https://i.imgur.com/duck.jpeg" alt="Imagem 10" onerror="this.style.display='none'"> 
+    </div> 
+    <div class="opcao" style="--cor: #0000ff;"> 
+     <img src="https://i.imgur.com/mack.jpeg" alt="Imagem 11" onerror="this.style.display='none'"> 
+    </div> 
+    <div class="opcao" style="--cor: #ffff00;"> 
+     <img src="https://i.imgur.com/?eck.png" alt="Imagem 12" onerror="this.style.display='none'"> 
+    </div> 
+    <div class="opcao" style="--cor: #ff00ff;"> 
+     <img src="https://i.imgur.com/mick.png" alt="Imagem 13" onerror="this.style.display='none'"> 
+    </div> 
+    <div class="opcao" style="--cor: #00ffff;"> 
+     <img src="https://i.imgur.com/mock.png" alt="Imagem 14" onerror="this.style.display='none'"> 
+    </div> 
+    <div class="opcao" style="--cor: #ffcc00;"> 
+     <img src="https://i.imgur.com/muck.png" alt="Imagem 15" onerror="this.style.display='none'"> 
+    </div> 
+    <div class="opcao" style="--cor: #cc00ff;"> 
+     <img src="https://i.imgur.com/back.png" alt="Imagem 16" onerror="this.style.display='none'"> 
+    </div> 
+    <div class="opcao" style="--cor: #ff00ff;"> 
+     <img src="https://i.imgur.com/beck.png" alt="Imagem 17" onerror="this.style.display='none'"> 
+    </div> 
+    <div class="opcao" style="--cor: #00ffff;"> 
+     <img src="https://i.imgur.com/bick.jpeg" alt="Imagem 18" onerror="this.style.display='none'"> 
+    </div> 
+    <div class="opcao" style="--cor: #ffcc00;"> 
+     <img src="https://i.imgur.com/bok.jpeg" alt="Imagem 19" onerror="this.style.display='none'"> 
+    </div> 
+    <div class="opcao" style="--cor: #cc00ff;"> 
+     <img src="https://i.imgur.com/buck.jpeg" alt="Imagem 20" onerror="this.style.display='none'"> 
+    </div> 
+   </div> 
+  </div> <button id="girar">Girar Roleta</button> <!-- Overlay para exibir a imagem sorteada --> 
+  <div class="overlay" id="overlay"> 
+   <img id="imagemSorteada" src="" alt="Imagem Sorteada"> <button id="fecharOverlay">Fechar</button> 
+  </div> 
+  <script>
+        const opcoes = document.querySelector('.opcoes');
+        const overlay = document.getElementById('overlay');
+        const imagemSorteada = document.getElementById('imagemSorteada');
+        const fecharOverlay = document.getElementById('fecharOverlay');
+
+        document.getElementById('girar').addEventListener('click', function() {
+            const graus = Math.floor(Math.random() * 360) + 3600; // Gira entre 360 e 3960 graus
+            opcoes.style.transform = `rotate(${graus}deg)`;
+
+            // Aguarda o término da animação para exibir a imagem sorteada
+            setTimeout(() => {
+                const anguloFinal = graus % 360;
+                const indiceSorteado = Math.floor(anguloFinal / 18); // Cada segmento tem 18 graus
+
+                // Pega a URL da imagem sorteada diretamente do elemento <img> correspondente
+                const imagemSorteadaElement = document.querySelectorAll('.opcao img')[indiceSorteado];
+                const urlImagemSorteada = imagemSorteadaElement.src;
+
+                // Exibe a imagem sorteada no overlay
+                imagemSorteada.src = urlImagemSorteada;
+                overlay.style.display = 'flex';
+            }, 5000); // Tempo da animação (5 segundos)
+        });
+
+        // Fecha o overlay
+        fecharOverlay.addEventListener('click', function() {
+            overlay.style.display = 'none';
+        });
+    </script> 
+ 
+</body></html>

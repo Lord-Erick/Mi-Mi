@@ -1,0 +1,171 @@
+<!doctype html>
+<html> 
+ <head> 
+  <meta charset="UTF-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <title>NSCODE</title> 
+  <style>
+    /* From Uiverse.io by marcelodolza */
+    .container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      --s: 100px; /* control the size */
+      --c1: #f8b195;
+      --c2: #355c7d;
+
+      --_g: var(--c2) 4% 14%, var(--c1) 14% 24%, var(--c2) 22% 34%,
+        var(--c1) 34% 44%, var(--c2) 44% 56%, var(--c1) 56% 66%, var(--c2) 66% 76%,
+        var(--c1) 76% 86%, var(--c2) 86% 96%;
+      background: radial-gradient(
+          100% 100% at 100% 0,
+          var(--c1) 4%,
+          var(--_g),
+          #0008 96%,
+          #0000
+        ),
+        radial-gradient(
+            100% 100% at 0 100%,
+            #0000,
+            #0008 4%,
+            var(--_g),
+            var(--c1) 96%
+          )
+          var(--c1);
+      background-size: var(--s) var(--s);
+      z-index: -1;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .offercard {
+      width: 50vw;
+      height: 50vw;
+      max-width: 90%;
+      max-height: 90%;
+      background: white;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+      border-radius: 5px;
+      position: relative;
+      z-index: 0;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .scratch-cover {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #f8b195;
+      z-index: 1;
+      transition: opacity 0.5s ease-in-out;
+    }
+
+    .scratchArea {
+      height: 20px;
+      width: 20px;
+      background: #f8b195;
+      backdrop-filter: blur(10px);
+      position: relative;
+      cursor: pointer;
+      z-index: 2;
+      flex-grow: 1;
+      border: none;
+    }
+  </style> 
+ </head> 
+ <body> 
+  <div class="container"></div> 
+  <div class="offercard"> 
+   <div class="scratch-cover"></div> 
+  </div> 
+  <script>
+    var offercard = document.querySelector(".offercard");
+    var scratchCover = document.querySelector(".scratch-cover");
+    var totalScratchAreas = 100;
+    var scratchedCount = 0;
+    var cards;
+    var isScratching = false;
+
+    var images = [
+      "https://i.imgur.com/crash.jpeg",
+      "https://i.imgur.com/cresh.png",
+      "https://i.imgur.com/crosh.png",
+      "https://i.imgur.com/crush.png",
+      "https://i.imgur.com/dash.png",
+      "https://i.imgur.com/desh.jpeg"
+    ];
+
+    function getRandomImage() {
+      var randomIndex = Math.floor(Math.random() * images.length);
+      return images[randomIndex];
+    }
+
+    window.onload = function() {
+      offercard.style.backgroundImage = "url('" + getRandomImage() + "')";
+
+      for (let index = 0; index < totalScratchAreas; index++) {
+        let box = document.createElement("span");
+        box.className = "scratchArea";
+        offercard.append(box);
+      }
+
+      cards = document.querySelectorAll(".scratchArea");
+
+      offercard.addEventListener("touchstart", function(event) {
+        isScratching = true;
+        scratchCover.style.opacity = 0;
+      });
+
+      scratchCover.addEventListener("transitionend", function() {
+        if (!isScratching && scratchedCount / totalScratchAreas >= 0.1) {
+          scratchCover.remove();
+        } else if (!isScratching && scratchedCount / totalScratchAreas < 0.1) {
+          scratchCover.style.opacity = 1;
+        }
+      });
+
+      offercard.addEventListener("touchend", function(event) {
+        isScratching = false;
+        if(scratchedCount / totalScratchAreas < 0.1){
+          scratchCover.style.opacity = 1;
+        }
+      });
+
+      offercard.addEventListener("touchmove", function(event) {
+        if (!isScratching) return;
+        event.preventDefault();
+        var touch = event.touches[0];
+        var x = touch.clientX;
+        var y = touch.clientY;
+
+        cards.forEach(function(card) {
+          var rect = card.getBoundingClientRect();
+          if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
+            if (card.style.background !== 'transparent') {
+              card.style.backdropFilter = "blur(0px)";
+              card.style.background = "transparent";
+              scratchedCount++;
+            }
+          }
+        });
+        if(scratchedCount/totalScratchAreas >= 0.1){
+          scratchCover.style.opacity = 0;
+        }
+      });
+    }
+  </script>  
+ 
+</body></html>
