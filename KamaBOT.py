@@ -7,23 +7,21 @@ from flask import Flask, request
 # CONFIGURAÇÃO
 # ===============================
 
-TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")  # Render vai ler daqui
+TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+WEBHOOK_URL = os.getenv("WEBHOOK_URL")  # <-- Agora está CORRETO
+
 bot = telebot.TeleBot(TOKEN)
-
-WEBHOOK_URL = os.getenv("https://mi-mi-yiek.onrender.com/")  # URL que você vai colocar no Render
-
 app = Flask(__name__)
 
 # ===============================
-# SUAS IMAGENS
+# SUA LISTA DE IMAGENS
 # ===============================
 
 KamaRandom = [
     "AgACAgEAAxkBAAIJu2mGGDFT-yFi1gQylzT2bduMY1E6AALhrTEbp8RpRUCIrNllXcLcAQADAgADeAADOAQ",
     "AgACAgEAAxkBAAIJummGGDERpeRKs2zxDaznTT-3LcWaAALgrTEbp8RpRS3b-fNe9uGqAQADAgADeAADOAQ",
     "AgACAgEAAxkBAAIJvGmGGDE2ua0f9tfZ2NpeURtYtVx2AALirTEbp8RpReZjvYuyiNuZAQADAgADeAADOAQ",
-    "AgACAgEAAxkBAAIJvWmGGDH-homDH3ug4xGO2ST1Zk6_AALjrTEbp8RpRbsVN7Tu23sAAQEAAwIAA3gAAzgE",
-    ...
+    # ... coloque o resto aqui
 ]
 
 Desafios = [
@@ -96,7 +94,15 @@ def bloquear_digitado(msg):
 
 
 # ===============================
-# FLASK – RECEPTOR DO WEBHOOK
+# ROTA GET / (TESTE)
+# ===============================
+
+@app.route("/", methods=["GET"])
+def home():
+    return "Bot rodando 😎", 200
+
+# ===============================
+# WEBHOOK DO TELEGRAM
 # ===============================
 
 @app.route("/", methods=["POST"])
@@ -116,7 +122,7 @@ def set_webhook():
     return f"Webhook configurado em {WEBHOOK_URL}"
 
 # ===============================
-# RUN (Render inicia aqui)
+# RUN
 # ===============================
 
 if __name__ == "__main__":
