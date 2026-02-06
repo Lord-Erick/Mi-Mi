@@ -10,7 +10,7 @@ from flask import Flask, request
 TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")  # Render vai ler daqui
 bot = telebot.TeleBot(TOKEN)
 
-WEBHOOK_URL = os.getenv("WEBHOOK_URL")  # URL que você vai colocar no Render
+WEBHOOK_URL = os.getenv("https://mi-mi-yiek.onrender.com/")  # URL que você vai colocar no Render
 
 app = Flask(__name__)
 
