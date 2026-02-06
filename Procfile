@@ -1,1 +1,1 @@
-worker: python KamaBot.py
+web: gunicorn KamaBOT:app
