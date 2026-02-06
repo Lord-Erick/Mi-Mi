@@ -8,7 +8,7 @@ from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 #   CONFIGURAÇÃO
 # ===============================
 
-TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+TOKEN = "8007201060:AAG6_BJCrR-idxGNHzzVaaaCJcVJGLecSHQ"
 bot = telebot.TeleBot(TOKEN)
 
 # SUA LISTA DE FILE_ID
